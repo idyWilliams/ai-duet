@@ -5,7 +5,7 @@ import type {
   TransportError,
   Turn,
 } from './types.js';
-import { seconds, err, type SecondsTime, type Result } from '../types/index.js';
+import { seconds, err, ok, type SecondsTime, type Result } from '../types/index.js';
 
 export class StubTransport implements ITransport {
   private readonly positionListeners: Array<(u: PositionUpdate) => void> = [];
@@ -39,6 +39,13 @@ export class StubTransport implements ITransport {
       kind: 'NotImplemented',
       message: 'Transport audio not wired in M1',
     });
+  }
+
+  stop(): Result<void, TransportError> {
+    this.stopMockTicker();
+    this.positionListeners.length = 0;
+    this.turnListeners.length = 0;
+    return ok(undefined);
   }
 
   onPositionChange(cb: (u: PositionUpdate) => void): RemoveListener {

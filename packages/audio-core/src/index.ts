@@ -8,3 +8,4 @@ export * from './audio/types.js';
 export type { Turn, PositionUpdate, TransportError, ITransport, } from './transport/types.js';
 export type { RemoveListener as TransportRemoveListener } from './transport/types.js';
 export * from './transport/StubTransport.js';
+export * from './transport/ClickTrackTransport.js';

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   ITransport,
-  StubTransport,
+  ClickTrackTransport,
   Turn,
   SecondsTime,
   seconds,
@@ -10,7 +10,7 @@ import {
 } from '@ai-duet/audio-core';
 import { SONGS } from '../data/mockSongs';
 
-const globalTransport = new StubTransport();
+const globalTransport = new ClickTrackTransport();
 export const getTransport = () => globalTransport;
 
 export interface UseTransportReturn {
@@ -21,11 +21,13 @@ export interface UseTransportReturn {
   pause: () => Result<void, TransportError>;
   seek: (n: number) => Result<void, TransportError>;
   transport: ITransport;
+  clickTrack: ClickTrackTransport;
   durationSeconds: SecondsTime;
 }
 
 export function useTransport(): UseTransportReturn {
   const transport = getTransport();
+  const clickTrack = transport as ClickTrackTransport;
   const firstSong = SONGS[0];
   const fallbackDuration = seconds(180);
   const durationSeconds = firstSong
@@ -39,7 +41,6 @@ export function useTransport(): UseTransportReturn {
   const [currentTurn, setCurrentTurn] = useState<Turn>(transport.currentTurn());
 
   useEffect(() => {
-    // UI-only demo ticker. Not used for audio scheduling in any way.
     const unsubPosition = transport.onPositionChange((payload) => {
       setCurrentSeconds(payload.seconds);
       setIsPlaying(payload.isPlaying);
@@ -48,32 +49,16 @@ export function useTransport(): UseTransportReturn {
       setCurrentTurn(turn);
     });
 
-    transport.startMockTicker(durationSeconds, 500);
-
     return () => {
-      transport.stopMockTicker();
       unsubPosition();
       unsubTurn();
     };
-  }, [transport, durationSeconds]);
+  }, [transport]);
 
-  const play = (): Result<void, TransportError> => {
-    const stub = transport as StubTransport;
-    stub.demoResumeTicker();
-    return transport.play();
-  };
-
-  const pause = (): Result<void, TransportError> => {
-    const stub = transport as StubTransport;
-    stub.demoPauseTicker();
-    return transport.pause();
-  };
-
-  const seek = (n: number): Result<void, TransportError> => {
-    const stub = transport as StubTransport;
-    stub.demoSeek(seconds(n));
-    return transport.seek(seconds(n));
-  };
+  const play = (): Result<void, TransportError> => transport.play();
+  const pause = (): Result<void, TransportError> => transport.pause();
+  const seek = (n: number): Result<void, TransportError> =>
+    transport.seek(seconds(n));
 
   return {
     currentSeconds,
@@ -83,6 +68,7 @@ export function useTransport(): UseTransportReturn {
     pause,
     seek,
     transport,
+    clickTrack,
     durationSeconds,
   };
 }

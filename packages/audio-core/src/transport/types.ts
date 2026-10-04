@@ -18,6 +18,7 @@ export interface ITransport {
   play(): Result<void, TransportError>;
   pause(): Result<void, TransportError>;
   seek(target: SecondsTime): Result<void, TransportError>;
+  stop(): Result<void, TransportError>;
   onPositionChange(cb: (u: PositionUpdate) => void): RemoveListener;
   onTurnChange(cb: (t: Turn) => void): RemoveListener;
   currentTurn(): Turn;
