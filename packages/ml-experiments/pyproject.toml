@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ai-duet-ml-experiments"
+version = "0.0.1"
+description = "AI Duet ML Experiments"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+# [project.optional-dependencies]
+# torch = []
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ai_duet_ml"]

@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/types.ts","./src/audio/usetransport.ts","./src/components/songcard.tsx","./src/data/mocksongs.ts","./src/pages/home.tsx","./src/pages/player.tsx","./src/pages/songdetail.tsx","./vite-env.d.ts","./__tests__/stubtransport.test.ts"],"version":"5.9.3"}

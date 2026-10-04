@@ -1,0 +1,21 @@
+{
+  "name": "@ai-duet/performance-engine",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json --noEmit false --outDir dist",
+    "test": "echo \"No tests in @ai-duet/performance-engine (interfaces only in M1) — skipped\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ai-duet/audio-core": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0",
+    "@types/node": "^22.0.0"
+  }
+}
