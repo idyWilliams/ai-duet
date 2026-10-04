@@ -185,7 +185,8 @@ export class ClickTrackTransport implements ITransport {
 
     this.audioStartedAtCtxTime = clockStartCtxTime - this.pauseCumulativeElapsed;
 
-    const timeProvider = (): number => ctx.currentTime;
+    const baseCtxBaseline = this.audioStartedAtCtxTime;
+    const timeProvider = (): number => ctx.currentTime - baseCtxBaseline;
     this.clock = this.opts.createClock(
       timeProvider,
       clockStartElapsed,
@@ -244,6 +245,7 @@ export class ClickTrackTransport implements ITransport {
     const wasPlaying = this._isPlaying;
 
     if (wasPlaying) {
+      this._isPlaying = false;
       this.stopPlayingInternals(true);
     }
 
@@ -288,8 +290,6 @@ export class ClickTrackTransport implements ITransport {
       this.audioContext = null;
     }
 
-    this.positionListeners.length = 0;
-    this.turnListeners.length = 0;
     this._isPlaying = false;
     this.emitPosition();
     return ok(undefined);
