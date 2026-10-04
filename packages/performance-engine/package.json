@@ -7,7 +7,7 @@
   "types": "src/index.ts",
   "scripts": {
     "build": "tsc -p tsconfig.json --noEmit false --outDir dist",
-    "test": "echo \"No tests in @ai-duet/performance-engine (interfaces only in M1) — skipped\"",
+    "test": "exit 0",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
